@@ -79,9 +79,13 @@ int main(int argc, char* argv[]) {
                 pas[SP] = ir.M;
                 break;
             case 2:
-                SP = BP + 1; 
-                BP = pas[SP - 2];
-                PC = pas[SP - 3];
+                switch(ir.M){
+                    case 0:
+                        SP = BP + 1; 
+                        BP = pas[SP - 2];
+                        PC = pas[SP - 3];
+                        break;
+                }
                 break;
             case 3:
                 SP = SP - 1;    
