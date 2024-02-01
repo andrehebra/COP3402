@@ -63,7 +63,9 @@ int main(int argc, char* argv[]) {
     printf("Initial values: %-8d%-8d%-8d\n", PC, BP, SP);
     
     // run program until end of program (eop) flag is set to 0
+    eop = 100;
     while (eop != 0) {
+        eop--;
         // set IR values to those in the current PC (program counter)
         ir.OP = pas[PC];
         ir.L = pas[PC + 1];
@@ -84,6 +86,49 @@ int main(int argc, char* argv[]) {
                         SP = BP + 1; 
                         BP = pas[SP - 2];
                         PC = pas[SP - 3];
+                        break;
+                    case 1: // add
+                        pas[SP + 1] = pas[SP + 1] + pas[SP];
+						SP = SP + 1;
+                        break;
+                    case 2: // sub
+                        pas[SP + 1] = pas[SP + 1] - pas[SP];
+						SP = SP + 1;
+                        break;
+                    case 3: // multiply
+                        pas[SP+1] = pas[SP+1] * pas[SP];
+                        SP = SP + 1;
+                        break;
+                    case 4: // divide
+                        pas[SP+1] = pas[SP+1] / pas[SP];
+                        SP = SP + 1;
+                        break;
+                    case 5: // eql
+                        pas[SP+1] = pas[SP+1] == pas[SP];
+                        SP = SP + 1;
+                        break;
+                    case 6: // neq
+                        pas[SP+1] = pas[SP+1] != pas[SP];
+                        SP = SP + 1;
+                        break;
+                    case 7: // lss
+                        pas[SP+1] = pas[SP+1] < pas[SP];
+                        SP = SP + 1;
+                        break;
+                    case 8: // leq
+                        pas[SP+1] = pas[SP+1] <= pas[SP];
+                        SP = SP + 1;
+                        break;
+                    case 9: // gtr
+                        pas[SP+1] = pas[SP+1] > pas[SP];
+                        SP = SP + 1;
+                        break;
+                    case 10: //geq
+                        pas[SP+1] = pas[SP+1] >= pas[SP];
+                        SP = SP + 1;
+                        break;
+                    case 11: // odd --> 1 for odd, 0 for even
+                        pas[SP] = pas[SP] % 2;
                         break;
                 }
                 break;
@@ -112,14 +157,23 @@ int main(int argc, char* argv[]) {
                 PC = ir.M;
                 break;
             case 8:
-                
+                if (SP == BP + 1) {
+                    PC = ir.M;
+                    SP = SP + 1;
+                }
                 
                 break;
             case 9:
                 switch(ir.M) {
                     case 1:
+                        printf("Output result is: %d\n", pas[SP]); 
+                        SP = SP+1;
                         break;
                     case 2:
+                        SP = SP-1;
+                        printf("Please Enter an Integer: ");
+                        scanf("%d", &pas[SP]);
+                         
                         break;
                     case 3:
                         eop = 0;
@@ -135,7 +189,45 @@ int main(int argc, char* argv[]) {
                 printf("LIT");
                 break;
             case 2:
-                printf("RTN");
+                switch(ir.M) {
+                    case 1:
+                        printf("ADD");
+                        break;
+                    case 2:
+                        printf("SUB");
+                        break;
+                    case 3:
+                        printf("MUL");
+                        break;
+                    case 4:
+                        printf("DIV");
+                        break;
+                    case 5:
+                        printf("EQL");
+                        break;
+                    case 6:
+                        printf("NEQ");
+                        break;
+                    case 7:
+                        printf("LSS");
+                        break;
+                    case 8:
+                        printf("LEQ");
+                        break;
+                    case 9:
+                        printf("GTR");
+                        break;
+                    case 10:
+                        printf("GEQ");
+                        break;
+                    case 11:
+                        printf("ODD");
+                        break;
+                    case 0:
+                        printf("RTN");
+                        break;
+                    
+                }
                 break;
             case 3:
                 printf("LOD");
@@ -156,7 +248,17 @@ int main(int argc, char* argv[]) {
                 printf("JPC");
                 break;
             case 9: 
-                printf("SYS");
+                switch(ir.M) {
+                    case 1:
+                        printf("SOU");
+                        break;
+                    case 2:
+                        printf("SIN");
+                        break;
+                    case 3:
+                        printf("EOP");
+                        break;   
+                }
                 break;
         }
         printf(" ");
@@ -165,7 +267,7 @@ int main(int argc, char* argv[]) {
         printf("%-8d%-8d%-8d", PC, BP, SP);
 
         for (int i = BP; i >= SP; i--) {
-            printf("%2d", pas[i]);
+            printf(" %d ", pas[i]);
         }
         printf("\n");
     }
