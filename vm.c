@@ -16,6 +16,7 @@ int ARRAY_SIZE = 500;
 
 // initialize pas array and set all values to zero
 int pas[500] = {0};
+int levels = 0;
 
 int base(int BP,int L)
 {
@@ -63,9 +64,7 @@ int main(int argc, char* argv[]) {
     printf("Initial values: %-8d%-8d%-8d\n", PC, BP, SP);
     
     // run program until end of program (eop) flag is set to 0
-    eop = 100;
     while (eop != 0) {
-        eop--;
         // set IR values to those in the current PC (program counter)
         ir.OP = pas[PC];
         ir.L = pas[PC + 1];
@@ -148,6 +147,7 @@ int main(int argc, char* argv[]) {
                 pas[SP - 3] = PC; 
                 BP = SP - 1;
                 PC = ir.M;
+                //levels++;
 
                 break;
             case 6:
@@ -157,7 +157,7 @@ int main(int argc, char* argv[]) {
                 PC = ir.M;
                 break;
             case 8:
-                if (SP == BP + 1) {
+                if (pas[SP] == 0) {
                     PC = ir.M;
                     SP = SP + 1;
                 }
@@ -173,7 +173,7 @@ int main(int argc, char* argv[]) {
                         SP = SP-1;
                         printf("Please Enter an Integer: ");
                         scanf("%d", &pas[SP]);
-                         
+
                         break;
                     case 3:
                         eop = 0;
@@ -266,9 +266,16 @@ int main(int argc, char* argv[]) {
         printf("%-2d%-8d", ir.L, ir.M);
         printf("%-8d%-8d%-8d", PC, BP, SP);
 
-        for (int i = BP; i >= SP; i--) {
-            printf(" %d ", pas[i]);
+        int tempBP = BP;
+
+        for (int i = ARRAY_SIZE - 1; i >= SP; i--) {
+            if (i == tempBP && tempBP != ARRAY_SIZE - 1) {
+                printf("| (%d)(%d)", tempBP, pas[tempBP]);
+                tempBP = pas[tempBP];
+            }
+            printf("%d ", pas[i]);
         }
+        
         printf("\n");
     }
   
