@@ -79,18 +79,24 @@ int main(int argc, char* argv[]) {
                 pas[SP] = ir.M;
                 break;
             case 2:
-                
+                SP = BP + 1; 
+                BP = pas[SP - 2];
+                PC = pas[SP - 3];
                 break;
             case 3:
-                
+                SP = SP - 1;    
+                pas[SP] = pas[base(BP, ir.L) - ir.M];
+
                 break;
             case 4:
-                
+                pas[base(BP, ir.L) - ir.M] = pas[SP];
+                SP = SP + 1;
+
                 break;
             case 5:
-                pas[SP - 1] = base(BP, ir.L); // static link (SL)
-                pas[SP - 2] = BP;	// dynamic link (DL)
-                pas[SP - 3] = PC;	 //return address (RA)	 
+                pas[SP - 1] = base(BP, ir.L);
+                pas[SP - 2] = BP;
+                pas[SP - 3] = PC; 
                 BP = SP - 1;
                 PC = ir.M;
 
@@ -102,6 +108,7 @@ int main(int argc, char* argv[]) {
                 PC = ir.M;
                 break;
             case 8:
+                
                 
                 break;
             case 9:
