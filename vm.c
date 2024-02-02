@@ -267,7 +267,7 @@ int main(int argc, char* argv[]) {
         printf("%-2d%-8d", ir.L, ir.M);
         printf("%-8d%-8d%-8d", PC, BP, SP);
 
-        int tempLevel = levels;
+        int tempLevel = levels - 1;
         int tempBP = base(BP, tempLevel);
 
         for (int i = ARRAY_SIZE - 1; i >= SP; i--) {
@@ -279,7 +279,7 @@ int main(int argc, char* argv[]) {
             printf("%d ", pas[i]);
         }
         
-        printf("((%d, %d))\n", BP, base(BP, 0));
+        printf("((%d, %d, %d, %d))\n", BP, base(BP, 1), base(BP, 2), levels);
     }
   
 }
