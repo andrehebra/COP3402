@@ -3,11 +3,13 @@
   "configurations": [
     {
       "name": "C/C++ Runner: Debug Session",
-      "type": "lldb",
+      "type": "cppvsdbg",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/andrehebra/repos/COP3402",
-      "program": "/Users/andrehebra/repos/COP3402/build/Debug/outDebug"
+      "stopAtEntry": false,
+      "console": "externalTerminal",
+      "cwd": "c:/Users/Andre/repos/COP3402",
+      "program": "c:/Users/Andre/repos/COP3402/build/Debug/outDebug"
     }
   ]
 }

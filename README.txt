@@ -10,3 +10,4 @@ I did not work in a group. All work submitted was done alone.
 
 "./a.out FILENAME"
 
+all output will be printed to the console
