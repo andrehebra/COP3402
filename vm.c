@@ -85,6 +85,7 @@ int main(int argc, char* argv[]) {
                         SP = BP + 1; 
                         BP = pas[SP - 2];
                         PC = pas[SP - 3];
+                        levels--;
                         break;
                     case 1: // add
                         pas[SP + 1] = pas[SP + 1] + pas[SP];
@@ -147,7 +148,7 @@ int main(int argc, char* argv[]) {
                 pas[SP - 3] = PC; 
                 BP = SP - 1;
                 PC = ir.M;
-                //levels++;
+                levels++;
 
                 break;
             case 6:
@@ -266,17 +267,19 @@ int main(int argc, char* argv[]) {
         printf("%-2d%-8d", ir.L, ir.M);
         printf("%-8d%-8d%-8d", PC, BP, SP);
 
-        int tempBP = BP;
+        int tempLevel = levels;
+        int tempBP = base(BP, tempLevel);
 
         for (int i = ARRAY_SIZE - 1; i >= SP; i--) {
             if (i == tempBP && tempBP != ARRAY_SIZE - 1) {
-                printf("| (%d)(%d)", tempBP, pas[tempBP]);
-                tempBP = pas[tempBP];
+                printf("| ");
+                tempLevel--;
+                tempBP = base(BP, tempLevel);
             }
             printf("%d ", pas[i]);
         }
         
-        printf("\n");
+        printf("((%d, %d))\n", BP, base(BP, 0));
     }
   
 }
