@@ -1,5 +1,7 @@
 /*
 Name: Andre Hebra
+
+I did not work in a group, all work was done by myself.
 */
 
 #include <stdio.h>
@@ -20,7 +22,7 @@ int levels = 0;
 
 int base(int BP,int L)
 {
-	int arb = BP;	// arb = activation record base
+	int arb = BP;	   // arb = activation record base
 	while ( L > 0)     //find base L levels down
 	{
 		arb = pas[arb];
@@ -40,6 +42,11 @@ int main(int argc, char* argv[]) {
     ir.OP = 0;
     ir.L = 0;
     ir.M = 0;
+
+    //create array and integer to track the activation record
+    int arTrack[500] = {0};
+    arTrack[0] = ARRAY_SIZE - 1;
+    int arTop = 0;
 
     // read in OP, L, and M into the pas array
     FILE* inputFile = fopen(argv[1], "r");
@@ -82,10 +89,11 @@ int main(int argc, char* argv[]) {
             case 2:
                 switch(ir.M){
                     case 0:
+                        arTop--;
+
                         SP = BP + 1; 
                         BP = pas[SP - 2];
                         PC = pas[SP - 3];
-                        levels--;
                         break;
                     case 1: // add
                         pas[SP + 1] = pas[SP + 1] + pas[SP];
@@ -148,8 +156,8 @@ int main(int argc, char* argv[]) {
                 pas[SP - 3] = PC; 
                 BP = SP - 1;
                 PC = ir.M;
-                levels++;
-
+                arTop++;
+                arTrack[arTop] = BP;
                 break;
             case 6:
                 SP = SP - ir.M;
@@ -267,19 +275,31 @@ int main(int argc, char* argv[]) {
         printf("%-2d%-8d", ir.L, ir.M);
         printf("%-8d%-8d%-8d", PC, BP, SP);
 
-        int tempLevel = levels - 1;
+        int tempLevel = levels;
         int tempBP = base(BP, tempLevel);
 
         for (int i = ARRAY_SIZE - 1; i >= SP; i--) {
-            if (i == tempBP && tempBP != ARRAY_SIZE - 1) {
+            for (int j = 0; j <= arTop; j++) {
+                if (i == arTrack[j] && arTrack[j] != ARRAY_SIZE - 1) {
+                    printf("| ");
+                }
+            }
+            
+            /*
+            if (i == pas[tempBP] && tempBP != ARRAY_SIZE - 1) {
                 printf("| ");
+
+                printf("|||tempBP: %d, tempLevel: %d|||", tempBP, tempLevel);
+
                 tempLevel--;
                 tempBP = base(BP, tempLevel);
+                printf("|||tempBP: %d, tempLevel: %d|||", tempBP, tempLevel);
             }
+            */
             printf("%d ", pas[i]);
         }
-        
-        printf("((%d, %d, %d, %d))\n", BP, base(BP, 1), base(BP, 2), levels);
+        printf("\n");
+        //printf("((%d, %d, %d, %d))\n", BP, base(BP, 1), base(BP, 2), levels);
     }
   
 }
