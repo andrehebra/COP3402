@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
     ir.L = 0;
     ir.M = 0;
 
-    //create array and integer to track the activation record
+    // create array and integer to track the activation record
     int arTrack[500] = {0};
     arTrack[0] = ARRAY_SIZE - 1;
     int arTop = 0;
