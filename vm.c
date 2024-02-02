@@ -18,7 +18,6 @@ int ARRAY_SIZE = 500;
 
 // initialize pas array and set all values to zero
 int pas[500] = {0};
-int levels = 0;
 
 int base(int BP,int L)
 {
@@ -73,6 +72,7 @@ int main(int argc, char* argv[]) {
     // run program until end of program (eop) flag is set to 0
     while (eop != 0) {
         // set IR values to those in the current PC (program counter)
+        // fetch the instruction and load into the struct
         ir.OP = pas[PC];
         ir.L = pas[PC + 1];
         ir.M = pas[PC + 2];
@@ -81,6 +81,7 @@ int main(int argc, char* argv[]) {
         PC = PC + 3;
         
         // execute
+        // use a switch case to differentiate between each opcode
         switch(ir.OP) {
             case 1:
                 SP--;
@@ -89,11 +90,11 @@ int main(int argc, char* argv[]) {
             case 2:
                 switch(ir.M){
                     case 0:
-                        arTop--;
-
                         SP = BP + 1; 
                         BP = pas[SP - 2];
                         PC = pas[SP - 3];
+
+                        arTop--;
                         break;
                     case 1: // add
                         pas[SP + 1] = pas[SP + 1] + pas[SP];
@@ -192,6 +193,8 @@ int main(int argc, char* argv[]) {
         }
         
         // print out the current state
+        
+        // print out the decoded opcode that is currently still in the IR struct
         printf("  ");
         switch(ir.OP) {
             case 1:
@@ -272,34 +275,28 @@ int main(int argc, char* argv[]) {
         }
         printf(" ");
 
+        // print out the current values of L and M
         printf("%-2d%-8d", ir.L, ir.M);
+
+        // print out the current values of PC, BP, and SP
         printf("%-8d%-8d%-8d", PC, BP, SP);
 
-        int tempLevel = levels;
-        int tempBP = base(BP, tempLevel);
-
+        // go through the stack and print each value
         for (int i = ARRAY_SIZE - 1; i >= SP; i--) {
+            // check if the current element in the stack is the beginning of an activation record
+            // if it is print "| " to the console
             for (int j = 0; j <= arTop; j++) {
                 if (i == arTrack[j] && arTrack[j] != ARRAY_SIZE - 1) {
                     printf("| ");
                 }
             }
             
-            /*
-            if (i == pas[tempBP] && tempBP != ARRAY_SIZE - 1) {
-                printf("| ");
-
-                printf("|||tempBP: %d, tempLevel: %d|||", tempBP, tempLevel);
-
-                tempLevel--;
-                tempBP = base(BP, tempLevel);
-                printf("|||tempBP: %d, tempLevel: %d|||", tempBP, tempLevel);
-            }
-            */
+            // print out the current value of the stack
             printf("%d ", pas[i]);
         }
+
+        //print a new line, then move to next instruction
         printf("\n");
-        //printf("((%d, %d, %d, %d))\n", BP, base(BP, 1), base(BP, 2), levels);
     }
   
 }
