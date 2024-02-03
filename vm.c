@@ -66,7 +66,7 @@ int main(int argc, char* argv[]) {
     int IR;                       // instruction register
     
     // print the initial values of PC, BP, SP
-    printf("                PC      BP      SP      stack\n");
+    printf("                PC      BP      SP      Stack\n");
     printf("Initial values: %-8d%-8d%-8d\n", PC, BP, SP);
     
     // run program until end of program (eop) flag is set to 0
@@ -167,10 +167,13 @@ int main(int argc, char* argv[]) {
                 PC = ir.M;
                 break;
             case 8:
+                
                 if (pas[SP] == 0) {
                     PC = ir.M;
-                    SP = SP + 1;
+                    
                 }
+                SP = SP + 1;
+                
                 
                 break;
             case 9:
@@ -289,6 +292,8 @@ int main(int argc, char* argv[]) {
                 if (i == arTrack[j] && arTrack[j] != ARRAY_SIZE - 1) {
                     printf("| ");
                 }
+
+                
             }
             
             // print out the current value of the stack
