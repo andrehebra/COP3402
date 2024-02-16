@@ -13,13 +13,14 @@ char reserved[14][10] = {"const", "var", "procedure", "call", "begin", "end", "i
 char special[13][1] = {"+", "-", "*", "/", "(", ")", "=", "," , ".", "<", ">", ";" , ":"};
 
 typedef enum {
-skipsym = 1, identsym = 2, numbersym = 3, plussym = 4, minussym = 5,
-multsym = 6, slashsym = 7, fisym = 8, eqlsym = 9, neqsym = 10, lessym = 11, leqsym =
-12, gtrsym = 13, geqsym = 14, lparentsym = 15, rparentsym = 16, commasym = 17,
-semicolonsym = 18, periodsym = 19, becomessym = 20,
-beginsym = 21, endsym = 22, ifsym = 23, thensym = 24, whilesym = 25, dosym = 26,
-callsym = 27, constsym = 28, varsym = 29, procsym = 30, writesym = 31,
-readsym = 32, elsesym = 33} token_type;
+    skipsym = 1, identsym = 2, numbersym = 3, plussym = 4, minussym = 5,
+    multsym = 6, slashsym = 7, fisym = 8, eqlsym = 9, neqsym = 10, lessym = 11, leqsym = 12, 
+    gtrsym = 13, geqsym = 14, lparentsym = 15, rparentsym = 16, commasym = 17,
+    semicolonsym = 18, periodsym = 19, becomessym = 20,
+    beginsym = 21, endsym = 22, ifsym = 23, thensym = 24, whilesym = 25, dosym = 26,
+    callsym = 27, constsym = 28, varsym = 29, procsym = 30, writesym = 31,
+    readsym = 32, elsesym = 33
+} token_type;
 
 // removes whitespace, tabs, and new line characters from the string passed to it utilizing recursion
 char* removeWhiteSpace(char* line) {
@@ -34,6 +35,28 @@ char* removeWhiteSpace(char* line) {
     }
 
     return line;
+}
+
+int charAtPosition(char* line, int pos, char character) {
+    if (line[pos] == character) return 1;
+    return 0;
+}
+
+// find reserved word in the given string
+char* findReserved(char* line) {
+    int lineLength = strlen(line);
+
+    for (int i = 0; i < lineLength; i++) {
+        switch(line[i]) {
+            case 'c':
+                if (line[i+1] == 'o' && line[i+2] == 'n' && line[i+3] == 's' && line[i+4] == 't') {
+                    return "const";
+                }
+                break;
+        }
+    }
+
+    return "asdf";    
 }
 
 int main(int argc, char *argv[]) {
@@ -96,8 +119,13 @@ int main(int argc, char *argv[]) {
         strcpy(lineByLine[i], removeWhiteSpace(lineByLine[i]));
     }
 
-    
+    for (int i = 0; i < lineCount; i++) {
+        char reservedWord[20];
 
+        strcpy(reservedWord, findReserved(lineByLine[i]));
+
+        printf("%s", reservedWord);
+    }
 
     return 0;
 }
