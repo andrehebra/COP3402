@@ -1,11 +1,5 @@
-var w, x;
-read w;
-begin
-    x:= 4;
-    if w > x then
-        w:= w + 1
-    else
-        w:= x;
-    fi
-end
-write w.
+var x, y;
+begin /* test */
+    y := /* testoisjdfoisjdf */3;
+    x := y + 56;
+end.
