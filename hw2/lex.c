@@ -22,11 +22,8 @@ char* removeWhiteSpace(char* line) {
             for (int k = j; k < currentLineSize; k++) {
                 line[k] = line[k+1];
             }
+            return removeWhiteSpace(line);
         }
-    }
-
-    for (int i = 0; i < currentLineSize; i++) {
-        if (line[i] == ' ' || line[i] == '\t' || line[i] == '\n') return removeWhiteSpace(line);
     }
 
     return line;
@@ -58,7 +55,7 @@ int main(int argc, char *argv[]) {
     printf("\n\nLexeme Table:\n\nlexeme token type\n");
 
     // remove comments
-    // this works by noting the beginning position of the comment and then replaces each character between slashes with witespace. This allows for the progam to remove it later
+    // this works by noting the beginning position of the comment and then replaces each character between slashes with witespace. This allows for the progam to remove it later when the removewhitespace function is called on the line
     for (int i = 0; i < lineCount; i++) {
         int currentLineSize = strlen(lineByLine[i]);
         int commentFlag = 0;
@@ -92,10 +89,7 @@ int main(int argc, char *argv[]) {
         strcpy(lineByLine[i], removeWhiteSpace(lineByLine[i]));
     }
 
-    printf("Source Program:\n");
-    for (int i = 0; i < lineCount; i++) {
-        printf("%s", lineByLine[i]);
-    }
+    
 
 
     return 0;
