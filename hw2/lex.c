@@ -26,7 +26,7 @@ typedef enum {
 char* removeWhiteSpace(char* line) {
     int currentLineSize = strlen(line);
     for (int j = 0; j < currentLineSize; j++) {
-        if (line[j] == ' ' || line[j] == '\t' || line[j] == '\n') {
+        if (line[j] == ' ' || line[j] == '\t' || line[j] == '\n' || line[j] == ';') {
             for (int k = j; k < currentLineSize; k++) {
                 line[k] = line[k+1];
             }
@@ -37,9 +37,25 @@ char* removeWhiteSpace(char* line) {
     return line;
 }
 
-int charAtPosition(char* line, int pos, char character) {
-    if (line[pos] == character) return 1;
-    return 0;
+char* removeWord(char* line, char* word) {
+    int wordLength = strlen(word);
+    int count = 0;
+    for (int i = 0; i < strlen(line); i++) {
+         for (int j = 0; j < wordLength; j++) {
+            if (i+j < strlen(line) && line[i+j] == line[j]) {
+                count++;
+            }
+         }
+
+         if (count == wordLength) {
+            for (int k = i; k < strlen(line); k++) {
+                line[k] = line[k+wordLength];
+            }
+         }
+         count = 0;
+    }
+
+    return line;
 }
 
 // find reserved word in the given string
@@ -53,10 +69,15 @@ char* findReserved(char* line) {
                     return "const";
                 }
                 break;
+            case 'v':
+                if (line[i+1] == 'a' && line[i+2] == 'r') {
+                    return "var";
+                }
+                break;
         }
     }
 
-    return "asdf";    
+    return "NEG";    
 }
 
 int main(int argc, char *argv[]) {
@@ -79,7 +100,9 @@ int main(int argc, char *argv[]) {
         printf("%s", lineByLine[i]);
     }
 
-
+    //create a token list to be printed later
+    char tokenList[1000][200];
+    int tokenPosition = 0;
 
 
     printf("\n\nLexeme Table:\n\nlexeme token type\n");
@@ -124,7 +147,27 @@ int main(int argc, char *argv[]) {
 
         strcpy(reservedWord, findReserved(lineByLine[i]));
 
-        printf("%s", reservedWord);
+        if (strcmp(reservedWord, "var") == 0) {
+            strcpy(lineByLine[i], removeWord(lineByLine[i], reservedWord));
+            printf("%-10s 29", reservedWord);
+            strcpy(tokenList[tokenPosition], "29");
+            tokenPosition++;
+        }
+
+        //printf("%s", reservedWord);
+    }
+
+    /*
+    //print out the source program
+    printf("Source Program:\n");
+    for (int i = 0; i < lineCount; i++) {
+        printf("%s\n", lineByLine[i]);
+    }
+    */
+
+    printf("\n\nToken List:\n");
+    for (int i = 0; i < tokenPosition; i++) {
+        printf("%s ", tokenList[i]);
     }
 
     return 0;
