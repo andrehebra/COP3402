@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "console": "externalTerminal",
-      "cwd": "c:/Users/Andre/repos/COP3402",
-      "program": "c:/Users/Andre/repos/COP3402/build/Debug/outDebug"
+      "cwd": "c:/Users/Andre/repos/COP3402/hw2",
+      "program": "c:/Users/Andre/repos/COP3402/hw2/build/Debug/outDebug"
     }
   ]
 }
