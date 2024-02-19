@@ -1,6 +1,21 @@
-var x, y;
-begin /* test */
-    y := /* testoisjdfoisjdf */3;
-    x := y + 56;
-    x := y * 400 + 3;
-end.
++
+-
+*
+/
+(
+    5
+)
+=
+;
+.
+,
+<
+>
+;
+const
+const/* constvar, procedure, call, begin, end, if, fi, then, else, while, do,*/
+read, write. 
+const
+/
+asdfgg
+.
